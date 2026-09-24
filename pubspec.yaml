@@ -1,0 +1,36 @@
+name: readygo_phrase
+description: "ReadyGo Phrase - 句動詞・熟語学習アプリ(留学・ワーホリ準備者向け)"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # Outfit(欧文) / Zen Kaku Gothic New(和文)をランタイム取得するために使用(readygo-speakと共通)
+  google_fonts: ^6.2.1
+  # コンテンツ(エントリ)・学習記録をreadygo-speak-apiから取得するために使用
+  http: ^1.2.2
+  # 発音の再生(タップで再生する単発再生のみ。readygo-speakと違い、画面を見ることが
+  # 前提の設計のため、ロック画面再生用のaudio_service等は使わない)
+  just_audio: ^0.10.6
+  shared_preferences: ^2.5.5
+  # 設定画面の「このアプリについて」から公式サイト・運営者を開く
+  url_launcher: ^6.3.2
+  # 設定画面にアプリのバージョンを出す
+  package_info_plus: ^10.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
