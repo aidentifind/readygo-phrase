@@ -4,7 +4,6 @@ import '../data/entry_repository.dart';
 import '../data/study_repository.dart';
 import '../models/entry.dart';
 import '../theme/app_colors.dart';
-import '../widgets/network_activity_indicator.dart';
 import 'card_screen.dart';
 
 /// モード選択画面(readygo-speak-api docs/HANDOVER.md 2.2章)。
@@ -37,10 +36,7 @@ class _ModeSelectScreenState extends State<ModeSelectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.level.label),
-        actions: const [SizedBox(width: NetworkActivityIndicator.reservedWidth)],
-      ),
+      appBar: AppBar(title: Text(widget.level.label)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),

@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 import '../data/network_activity.dart';
 import '../theme/app_colors.dart';
 
-/// API との通信中に、画面右上へ「通信中」を出す(すべての画面の上に重ねる)。
+/// API との通信中に、AppBarの下へ「通信中」を出す(すべての画面の上に重ねる)。
 /// 操作は妨げない。通信が終わるとフェードアウトする。
 class NetworkActivityIndicator extends StatelessWidget {
   const NetworkActivityIndicator({super.key});
-
-  /// 右上に重なる表示の幅(右の余白を含む)。AppBarの右端に見出しなどを置く画面は、
-  /// actions にこの幅の空きを入れて、見出しが隠れないようにする。
-  static const double reservedWidth = 96;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +15,8 @@ class NetworkActivityIndicator extends StatelessWidget {
         child: Align(
           alignment: Alignment.topRight,
           child: Padding(
-            padding: const EdgeInsets.only(top: 8, right: 12),
+            // AppBar(kToolbarHeight)の下に出す。actions のアイコンと重ならないようにするため。
+            padding: const EdgeInsets.only(top: kToolbarHeight + 8, right: 12),
             child: ValueListenableBuilder<bool>(
               valueListenable: NetworkActivity.busy,
               builder: (context, busy, _) => AnimatedOpacity(

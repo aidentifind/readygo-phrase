@@ -50,16 +50,17 @@ Material Iconsのプレースホルダー(`Icons.style_rounded`)を使ってい�
 
 ## 未確定事項・次のアクション一覧
 
-- [ ] **ネイティブプロジェクトの生成**: このリポジトリには`lib/`・`pubspec.yaml`・`test/`のみが
-      揃っており、`android/`・`ios/`ディレクトリ(Xcodeプロジェクト・Gradle設定等)はまだ無い。
-      Flutter SDKが無い環境で作業したため、`flutter create`が実行できなかった。
-      セットアップ手順は[README.md](README.md)参照
+- [x] **ネイティブプロジェクトの生成**: 2026-09-25、Flutter 3.47.4で`flutter create`を実行し、
+      `android/`・`ios/`を生成済み。パッケージ名/Bundle IDは仮値のまま(下記未決事項参照)
 - [ ] ReadyGo Phrase専用ロゴのデザイン(readygo-speakの「Speak A」ロゴ確定と同じプロセスが必要)
 - [ ] パッケージ名/Bundle ID・ストアURLは`space.readygo_english.phrase`
-      (`lib/config/app_config.dart`)で仮置き。Speakの命名規則を踏襲した想定値で、正式決定ではない
-- [ ] 本番投入分の句動詞・熟語コンテンツ(TOEICレベル別に数十〜数百件)。現状は
-      動作確認用サンプル9件のみ(`readygo-speak-api/db/seed_data/phrase/entries_v1.json`)。
-      作り方は`docs/HANDOVER.md` 3.1章・readygo-speakのコンテンツ生成プロンプトテンプレートを参照
+      (`lib/config/app_config.dart`)で仮置き。Speakの命名規則を踏襲した想定値で、正式決定ではない。
+      `flutter create`が自動生成した実際の値(`space.readygoenglish.readygo_phrase` /
+      `space.readygo-english.readygoPhrase`)とも異なるため、正式決定時にどちらも揃える必要がある
+- [x] 本番投入分の句動詞・熟語コンテンツ。2026-09-25、TOEICレベル別111件を投入済み
+      (`readygo-speak-api/db/seed_data/phrase/readygo-phrase-seed-content.json`、旧
+      `entries_v1.json`の9件サンプルから置き換え)。追加・更新の作り方は`docs/HANDOVER.md` 3.1章・
+      readygo-speakのコンテンツ生成プロンプトテンプレートを参照
 - [ ] 広告(AdMob)は未実装・未検討(`docs/HANDOVER.md`に言及が無いため今回はスコープ外とした)
 - [ ] readygo-speak-apiのデプロイ(Render)・CORS設定にReadyGo Phraseのドメイン/アプリを反映
 - [ ] サイト(`readygo-english.space/phrase/`)は未作成。`AppConfig.siteUrl`は想定パスのみ

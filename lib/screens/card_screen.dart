@@ -8,7 +8,6 @@ import '../data/study_repository.dart';
 import '../data/study_settings.dart';
 import '../models/entry.dart';
 import '../theme/app_colors.dart';
-import '../widgets/network_activity_indicator.dart';
 
 enum _CardScreenStatus { loading, ready, empty, failed, done }
 
@@ -165,10 +164,7 @@ class _CardScreenState extends State<CardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_titleFor(widget.mode, widget.level)),
-        actions: const [SizedBox(width: NetworkActivityIndicator.reservedWidth)],
-      ),
+      appBar: AppBar(title: Text(_titleFor(widget.mode, widget.level))),
       body: SafeArea(
         child: switch (_status) {
           _CardScreenStatus.loading => const Center(child: CircularProgressIndicator()),

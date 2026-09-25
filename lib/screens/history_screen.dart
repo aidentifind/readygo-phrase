@@ -4,7 +4,6 @@ import '../data/progress_repository.dart';
 import '../models/entry.dart';
 import '../models/study_progress.dart';
 import '../theme/app_colors.dart';
-import '../widgets/network_activity_indicator.dart';
 
 /// 履歴画面(readygo-speak-api docs/HANDOVER.md 2.5章・§6未決事項5への回答)。
 /// レベルごとの現在ステータス(覚えている/わからない/未学習)の内訳と、
@@ -15,10 +14,7 @@ class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('履歴'),
-        actions: const [SizedBox(width: NetworkActivityIndicator.reservedWidth)],
-      ),
+      appBar: AppBar(title: const Text('履歴')),
       body: SafeArea(
         child: ValueListenableBuilder<ProgressState>(
           valueListenable: ProgressRepository.instance.state,

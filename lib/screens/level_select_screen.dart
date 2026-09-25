@@ -4,7 +4,6 @@ import '../data/progress_repository.dart';
 import '../data/study_settings.dart';
 import '../models/entry.dart';
 import '../theme/app_colors.dart';
-import '../widgets/network_activity_indicator.dart';
 import 'history_screen.dart';
 import 'mode_select_screen.dart';
 import 'settings_screen.dart';
@@ -38,7 +37,6 @@ class LevelSelectScreen extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const SettingsScreen()),
             ),
           ),
-          const SizedBox(width: NetworkActivityIndicator.reservedWidth - 8),
         ],
       ),
       body: SafeArea(

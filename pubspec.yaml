@@ -20,6 +20,9 @@ dependencies:
   # 発音の再生(タップで再生する単発再生のみ。readygo-speakと違い、画面を見ることが
   # 前提の設計のため、ロック画面再生用のaudio_service等は使わない)
   just_audio: ^0.10.6
+  # AVAudioSessionのカテゴリ設定に使用(readygo-speakと同じ .speech()。設定しないと
+  # iOSでは既定の ambient カテゴリになり、音量が小さく消音スイッチの影響も受ける)
+  audio_session: ^0.2.4
   shared_preferences: ^2.5.5
   # 設定画面の「このアプリについて」から公式サイト・運営者を開く
   url_launcher: ^6.3.2

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 
 import 'data/api_client.dart';
@@ -14,6 +15,10 @@ import 'widgets/network_activity_indicator.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await StudySettings.load();
+  // 発音の再生(card_screen.dart)が使うAVAudioSessionのカテゴリ設定。これをしないと
+  // iOSでは既定の ambient カテゴリのままになり、音量が小さく消音スイッチの影響も受ける
+  // (readygo-speakのAudioSessionConfiguration.speech()と同じ設定)。
+  await AudioSession.instance.then((s) => s.configure(const AudioSessionConfiguration.speech()));
   // 前回取れた設定で先に判定しておく(オフラインで起動した古い版も止められるように)。
   await RemoteConfigRepository.instance.init();
   runApp(const ReadyGoPhraseApp());
