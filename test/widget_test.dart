@@ -82,7 +82,7 @@ void main() {
     await tester.tap(find.text(PhraseLevel.toeicLt600.label));
     await tester.pumpAndSettle();
 
-    expect(find.text('学習'), findsOneWidget);
-    expect(find.text('復習'), findsOneWidget);
+    expect(find.text(StudyMode.study.actionLabel), findsOneWidget);
+    expect(find.text(StudyMode.review.actionLabel), findsOneWidget);
   });
 }

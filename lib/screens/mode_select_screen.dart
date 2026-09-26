@@ -40,53 +40,66 @@ class _ModeSelectScreenState extends State<ModeSelectScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
-          child: FutureBuilder<(int, int)>(
-            future: _counts,
-            builder: (context, snapshot) {
-              final total = snapshot.data?.$1;
-              final review = snapshot.data?.$2;
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _ModeCard(
-                    icon: Icons.school_rounded,
-                    title: '学習',
-                    subtitle: total == null ? '読み込み中…' : '$total件',
-                    enabled: total == null || total > 0,
-                    onTap: () => _start(StudyMode.study),
-                  ),
-                  const SizedBox(height: 20),
-                  _ModeCard(
-                    icon: Icons.refresh_rounded,
-                    title: '復習',
-                    subtitle: review == null
-                        ? '読み込み中…'
-                        : (review == 0 ? '「わからない」の項目はありません' : '$review件'),
-                    enabled: (review ?? 0) > 0,
-                    onTap: () => _start(StudyMode.review),
-                  ),
-                ],
-              );
-            },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${widget.level.toeicRange}が目安',
+                style: const TextStyle(color: AppColors.inkMuted),
+              ),
+              const SizedBox(height: 24),
+              FutureBuilder<(int, int)>(
+                future: _counts,
+                builder: (context, snapshot) {
+                  final total = snapshot.data?.$1;
+                  final review = snapshot.data?.$2;
+                  return Column(
+                    children: [
+                      _ModeCard(
+                        icon: Icons.school_rounded,
+                        title: StudyMode.study.actionLabel,
+                        subtitle: null,
+                        enabled: total == null || total > 0,
+                        onTap: () => _start(StudyMode.study),
+                      ),
+                      const SizedBox(height: 20),
+                      _ModeCard(
+                        icon: Icons.refresh_rounded,
+                        title: StudyMode.review.actionLabel,
+                        subtitle: review == null
+                            ? '読み込み中…'
+                            : (review == 0 ? '「わからない」の項目はありません' : '$review件'),
+                        enabled: (review ?? 0) > 0,
+                        onTap: () => _start(StudyMode.review),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  void _start(StudyMode mode) {
-    Navigator.of(context).push(
+  Future<void> _start(StudyMode mode) async {
+    await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => CardScreen(level: widget.level, mode: mode),
       ),
     );
+    // 学習・復習から戻ってきたら「わからない」件数が変わっている可能性があるので、
+    // 復習ボタンの有効/件数表示を最新化する(2026-09-26、戻っても反映されない不具合の修正)。
+    if (mounted) setState(() => _counts = _loadCounts());
   }
 }
 
 class _ModeCard extends StatelessWidget {
   final IconData icon;
   final String title;
-  final String subtitle;
+  final String? subtitle;
   final bool enabled;
   final VoidCallback onTap;
 
@@ -135,8 +148,10 @@ class _ModeCard extends StatelessWidget {
                           color: AppColors.ink,
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(subtitle, style: const TextStyle(color: AppColors.inkMuted)),
+                      if (subtitle != null) ...[
+                        const SizedBox(height: 4),
+                        Text(subtitle!, style: const TextStyle(color: AppColors.inkMuted)),
+                      ],
                     ],
                   ),
                 ),

@@ -164,7 +164,17 @@ class _CardScreenState extends State<CardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_titleFor(widget.mode, widget.level))),
+      appBar: AppBar(
+        title: Text(_titleFor(widget.mode, widget.level)),
+        // 標準の戻る矢印は目立ちにくいという指摘(2026-09-26)を受け、押しやすいよう
+        // タップ領域とアイコンを少し大きくする。
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded, size: 26),
+          iconSize: 26,
+          tooltip: '戻る',
+          onPressed: () => Navigator.of(context).maybePop(),
+        ),
+      ),
       body: SafeArea(
         child: switch (_status) {
           _CardScreenStatus.loading => const Center(child: CircularProgressIndicator()),
@@ -297,10 +307,12 @@ class _CardScreenState extends State<CardScreen> {
             Row(
               children: [
                 Expanded(
-                  child: FilledButton.tonal(
+                  child: FilledButton(
                     style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.known.withValues(alpha: 0.14),
-                      foregroundColor: AppColors.known,
+                      backgroundColor: AppColors.known,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size.fromHeight(56),
+                      textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
                     ),
                     onPressed: () => _flip(StudyResult.known),
                     child: const Text('覚えている'),
@@ -308,10 +320,12 @@ class _CardScreenState extends State<CardScreen> {
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: FilledButton.tonal(
+                  child: FilledButton(
                     style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.unknown.withValues(alpha: 0.14),
-                      foregroundColor: AppColors.unknown,
+                      backgroundColor: AppColors.unknown,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size.fromHeight(56),
+                      textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
                     ),
                     onPressed: () => _flip(StudyResult.unknown),
                     child: const Text('わからない'),
@@ -363,32 +377,45 @@ class _ExampleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // タップ可能とわかりづらいという指摘(2026-09-26)を受け、単色の小さいアイコンではなく
+    // 背景を薄く色づけした行全体+ブランドカラーの丸い再生ボタンにする。
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: onPlay,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Icon(Icons.volume_up_outlined, size: 18, color: AppColors.inkMuted),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(example.enText, style: const TextStyle(color: AppColors.ink)),
-                    const SizedBox(height: 4),
-                    Text(
-                      example.jaText,
-                      style: const TextStyle(color: AppColors.inkMuted, fontSize: 13),
-                    ),
-                  ],
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Material(
+        color: AppColors.brandEnd.withValues(alpha: 0.06),
+        borderRadius: BorderRadius.circular(14),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14),
+          onTap: onPlay,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: const BoxDecoration(
+                    gradient: AppColors.brandGradient,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 22),
                 ),
-              ),
-            ],
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(example.enText, style: const TextStyle(color: AppColors.ink)),
+                      const SizedBox(height: 4),
+                      Text(
+                        example.jaText,
+                        style: const TextStyle(color: AppColors.inkMuted, fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

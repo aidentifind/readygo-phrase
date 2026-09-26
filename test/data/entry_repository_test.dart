@@ -98,6 +98,9 @@ void main() {
 
     response.complete(_ok('[]'));
     await pending;
+    // ローカル環境のような瞬時の通信でも利用者に見えるよう、消灯には最低表示時間を
+    // 設けている(NetworkActivity._minVisible)。それを待ってから戻ったことを確認する。
+    await Future.delayed(const Duration(milliseconds: 600));
     expect(NetworkActivity.busy.value, isFalse);
   });
 }

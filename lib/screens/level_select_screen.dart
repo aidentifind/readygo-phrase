@@ -120,13 +120,23 @@ class _LevelCard extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: Text(
-                  level.label,
-                  style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.ink,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      level.label,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.ink,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${level.toeicRange}が目安',
+                      style: const TextStyle(fontSize: 13, color: AppColors.inkMuted),
+                    ),
+                  ],
                 ),
               ),
               if (highlighted)

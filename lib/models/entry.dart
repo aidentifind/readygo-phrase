@@ -107,7 +107,16 @@ extension PhraseLevelApi on PhraseLevel {
     PhraseLevel.toeic800900 => 'toeic_800_900',
   };
 
+  /// レベル選択・各画面の見出しに使う主表示(TKフィードバック2026-09-26: TOEICスコアは
+  /// 目安として補足的に見せるだけにし、主表示は「低・中・高」にする)。
   String get label => switch (this) {
+    PhraseLevel.toeicLt600 => 'レベル低',
+    PhraseLevel.toeic600700 => 'レベル中',
+    PhraseLevel.toeic800900 => 'レベル高',
+  };
+
+  /// TOEIC換算の目安(補足表示専用。`label`の代わりに単独で使わない)。
+  String get toeicRange => switch (this) {
     PhraseLevel.toeicLt600 => 'TOEIC 600点未満',
     PhraseLevel.toeic600700 => 'TOEIC 600〜700点',
     PhraseLevel.toeic800900 => 'TOEIC 800〜900点',
@@ -129,6 +138,12 @@ extension StudyModeApi on StudyMode {
   String get label => switch (this) {
     StudyMode.study => '学習',
     StudyMode.review => '復習',
+  };
+
+  /// モード選択画面のボタン表示用(TKフィードバック2026-09-26)。
+  String get actionLabel => switch (this) {
+    StudyMode.study => '学習する',
+    StudyMode.review => '復習する',
   };
 }
 
