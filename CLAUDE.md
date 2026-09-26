@@ -66,6 +66,10 @@ ReadyGo Phrase用にはシリーズ頭文字ロゴ(P、前傾-5°)を2026-09-26�
       readygo-speakのコンテンツ生成プロンプトテンプレートを参照
 - [ ] 広告(AdMob)は未実装・未検討(`docs/HANDOVER.md`に言及が無いため今回はスコープ外とした)
 - [ ] readygo-speak-apiのデプロイ(Render)・CORS設定にReadyGo Phraseのドメイン/アプリを反映
-- [ ] サイト(`readygo-english.space/phrase/`)は未作成。`AppConfig.siteUrl`は想定パスのみ
+- [x] サイト(`readygo-english.space/phrase/`)を作成(2026-09-26、`readygo-speak-api/site/phrase/index.html`。
+      デザイン・コード構成はReadyGo Speakの`site/speak/index.html`を踏襲、ロゴは本アプリの「P」マークを使用)。
+      アプリ未公開のため、CTAは「Android版 近日公開」の非活性表示にして、代わりにReadyGo Speakの
+      Google Playページへ誘導している。**まだ`deploy-site.sh`でデプロイしていない**(ローカルにファイルを
+      置いただけ)。アプリを公開したら、CTAをストアリンクに差し替えてからデプロイすること
 - [ ] `docs/HANDOVER.md` §6 未決事項の #3〜#5(フリップ実装方式・例文の可変数・履歴の表示内容)は
       実装時に妥当な側で進めた。TKの確認を推奨
