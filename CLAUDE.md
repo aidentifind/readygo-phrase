@@ -33,10 +33,12 @@
 
 `readygo-speak/CLAUDE.md` 2章の「Speak A」ブランド(コーラル`#FF6A1F`→マゼンタ`#FF1E88`の
 グラデーション、Outfit/Zen Kaku Gothic New)をカラートークン・書体としてそのまま踏襲している
-(`lib/theme/`)。**ただし「Speak A」マーク自体(横顔+Aの意匠)はReadyGo Speak専用のロゴであり、
-ReadyGo Phrase用のロゴはまだデザインしていない**。現状はアプリ内のブロック画面等で
-Material Iconsのプレースホルダー(`Icons.style_rounded`)を使っている。アプリアイコン・
-起動画面もFlutterのデフォルトのまま(`flutter create`で生成する分のみ)。
+(`lib/theme/`)。**「Speak A」マーク自体(横顔+Aの意匠)はReadyGo Speak専用のロゴ**で、
+ReadyGo Phrase用にはシリーズ頭文字ロゴ(P、前傾-5°)を2026-09-26に確定した
+(`assets/branding/README.md`参照)。アプリアイコン(Android・iOS)は`flutter_launcher_icons`で
+このロゴに差し替え済み。アプリ内のブロック画面等はまだMaterial Iconsのプレースホルダー
+(`Icons.style_rounded`)のままで、このマークに差し替えるかは未検討。起動画面もFlutterの
+デフォルトのまま。
 
 ## 技術スタック
 
@@ -52,7 +54,8 @@ Material Iconsのプレースホルダー(`Icons.style_rounded`)を使ってい�
 
 - [x] **ネイティブプロジェクトの生成**: 2026-09-25、Flutter 3.47.4で`flutter create`を実行し、
       `android/`・`ios/`を生成済み。パッケージ名/Bundle IDは仮値のまま(下記未決事項参照)
-- [ ] ReadyGo Phrase専用ロゴのデザイン(readygo-speakの「Speak A」ロゴ確定と同じプロセスが必要)
+- [x] ReadyGo Phrase専用ロゴのデザイン。2026-09-26確定、アプリアイコンに反映済み
+      (`assets/branding/README.md`参照)。アプリ内プレースホルダー・起動画面への適用は未着手
 - [ ] パッケージ名/Bundle ID・ストアURLは`space.readygo_english.phrase`
       (`lib/config/app_config.dart`)で仮置き。Speakの命名規則を踏襲した想定値で、正式決定ではない。
       `flutter create`が自動生成した実際の値(`space.readygoenglish.readygo_phrase` /

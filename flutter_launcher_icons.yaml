@@ -1,0 +1,11 @@
+# pubspec.yaml に追記、または flutter_launcher_icons.yaml としてプロジェクト直下に置く
+# 実行: dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "assets/icon/icon-1024.png"
+  remove_alpha_ios: true
+  adaptive_icon_background: "assets/icon/adaptive-background.png"
+  adaptive_icon_foreground: "assets/icon/adaptive-foreground.png"
+  adaptive_icon_monochrome: "assets/icon/adaptive-monochrome.png"
+  min_sdk_android: 21
