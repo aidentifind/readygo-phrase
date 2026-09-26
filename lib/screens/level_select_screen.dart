@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../ads/banner_ad_slot.dart';
+import '../config/ad_config.dart';
 import '../data/progress_repository.dart';
 import '../data/study_settings.dart';
 import '../models/entry.dart';
@@ -39,6 +41,8 @@ class LevelSelectScreen extends StatelessWidget {
           ),
         ],
       ),
+      // バナーは画面下部(CLAUDE.md 8章)。広告が無いときは高さ0になる。
+      bottomNavigationBar: BannerAdSlot(adUnitId: AdConfig.bottomBanner),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../ads/banner_ad_slot.dart';
+import '../config/ad_config.dart';
 import '../data/entry_repository.dart';
 import '../data/study_repository.dart';
 import '../models/entry.dart';
@@ -37,6 +39,8 @@ class _ModeSelectScreenState extends State<ModeSelectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.level.label)),
+      // バナーは画面下部(CLAUDE.md 8章)。広告が無いときは高さ0になる。
+      bottomNavigationBar: BannerAdSlot(adUnitId: AdConfig.bottomBanner),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),

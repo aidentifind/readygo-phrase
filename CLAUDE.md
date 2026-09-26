@@ -40,6 +40,33 @@ ReadyGo Phrase用にはシリーズ頭文字ロゴ(P、前傾-5°)を2026-09-26�
 (`Icons.style_rounded`)のままで、このマークに差し替えるかは未検討。起動画面もFlutterの
 デフォルトのまま。
 
+## 収益モデル
+
+`readygo-speak/CLAUDE.md` 8章と同じ方針・実装(バナー広告のみ、インタースティシャルは避ける)。
+
+### AdMob実装(2026-09-26)
+
+- **配置**: レベル選択・モード選択・履歴・設定は画面下部、カード画面(学習・復習)は**上部**
+  (AppBarの下)。カード画面の下部は「覚えている/わからない」ボタンがあり、近くに置くと
+  誤タップ誘発でAdMobポリシー違反になりやすいため。Speakのようなボトムナビゲーション+
+  共通シェルを持たないため、Speakは1箇所だった下部バナーをPhraseでは画面ごとに置いている。
+  形式はアンカー型アダプティブバナー
+- **ID**: アプリID Android `ca-app-pub-5922624949407858~6753931360`(AndroidManifest.xml)・
+  iOS `ca-app-pub-5922624949407858~1792500295`(Info.plistの`GADApplicationIdentifier`)。
+  広告ユニットは上部(カード画面) Android `.../1804857011`・iOS `.../5568842204`、
+  下部(その他画面) Android `.../3105581966`・iOS `.../8087369347`(`lib/config/ad_config.dart`)。
+  **リリースビルド以外は常にGoogleのテスト用ID**(開発中に本番広告を表示・タップすると
+  無効なトラフィックでアカウント停止の対象になるため)
+- **同意(UMP)・SKAdNetwork・トラッキング許可**: readygo-speakと全く同じ実装
+  (`lib/ads/ads_service.dart`・`lib/ads/banner_ad_slot.dart`はreadygo-speakからほぼそのまま移植)。
+  iOSシミュレータでUMP同意フォーム→ATCダイアログ→テスト広告表示まで動作確認済み
+- **リモート制御**: `phrase.ads_enabled`(サーバーのapp_config)は元々用意されていたため、
+  バックエンド側の変更は不要だった
+- **未対応**: AdMob管理画面の「プライバシーとメッセージ」でGDPRメッセージを作成・公開
+  (作らないとEEA・英国でフォームが出ず、広告も出ない)、`app-ads.txt`の設置、
+  Play Consoleの「広告を含む」申告とデータセーフティ(広告ID)。いずれもSpeak側でも
+  未対応のまま残っている項目(readygo-speak/CLAUDE.md 8章参照)
+
 ## 技術スタック
 
 - **フロントエンド**: Flutter(readygo-speakと同じ構成方針。状態管理はProvider/Riverpod等を
@@ -64,7 +91,8 @@ ReadyGo Phrase用にはシリーズ頭文字ロゴ(P、前傾-5°)を2026-09-26�
       (`readygo-speak-api/db/seed_data/phrase/readygo-phrase-seed-content.json`、旧
       `entries_v1.json`の9件サンプルから置き換え)。追加・更新の作り方は`docs/HANDOVER.md` 3.1章・
       readygo-speakのコンテンツ生成プロンプトテンプレートを参照
-- [ ] 広告(AdMob)は未実装・未検討(`docs/HANDOVER.md`に言及が無いため今回はスコープ外とした)
+- [x] 広告(AdMob)。2026-09-26、バナー広告をreadygo-speakと同じ仕様で実装・本番ID設定済み
+      (「収益モデル」章参照)。GDPRメッセージ・app-ads.txt・Play Consoleの広告申告は未対応
 - [ ] readygo-speak-apiのデプロイ(Render)・CORS設定にReadyGo Phraseのドメイン/アプリを反映
 - [x] サイト(`readygo-english.space/phrase/`)を作成(2026-09-26、`readygo-speak-api/site/phrase/index.html`。
       デザイン・コード構成はReadyGo Speakの`site/speak/index.html`を踏襲、ロゴは本アプリの「P」マークを使用)。

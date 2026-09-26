@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
+import '../ads/banner_ad_slot.dart';
+import '../config/ad_config.dart';
 import '../data/entry_repository.dart';
 import '../data/study_repository.dart';
 import '../data/study_settings.dart';
@@ -176,7 +178,20 @@ class _CardScreenState extends State<CardScreen> {
         ),
       ),
       body: SafeArea(
-        child: switch (_status) {
+        child: Column(
+          children: [
+            // バナーは上部(CLAUDE.md 8章)。下部の「覚えている/わからない」ボタンの
+            // 近くに置くと誤タップ誘発でAdMobポリシー違反になりやすいため。
+            BannerAdSlot(adUnitId: AdConfig.studyTopBanner),
+            Expanded(child: _buildBody()),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBody() {
+    return switch (_status) {
           _CardScreenStatus.loading => const Center(child: CircularProgressIndicator()),
           _CardScreenStatus.failed => _MessageView(
             message: '読み込めませんでした。通信状態を確認してもう一度お試しください。',
@@ -192,9 +207,7 @@ class _CardScreenState extends State<CardScreen> {
           ),
           _CardScreenStatus.ready => _buildCard(),
           _CardScreenStatus.done => _buildSummary(),
-        },
-      ),
-    );
+        };
   }
 
   static String _titleFor(StudyMode mode, PhraseLevel level) =>

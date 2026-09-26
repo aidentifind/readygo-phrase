@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../ads/ads_service.dart';
+import '../ads/banner_ad_slot.dart';
+import '../config/ad_config.dart';
 import '../config/app_config.dart';
 import '../data/study_settings.dart';
 import '../theme/app_colors.dart';
@@ -16,6 +19,8 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('設定')),
+      // バナーは画面下部(CLAUDE.md 8章)。広告が無いときは高さ0になる。
+      bottomNavigationBar: BannerAdSlot(adUnitId: AdConfig.bottomBanner),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
@@ -53,6 +58,20 @@ class SettingsScreen extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(height: 32),
+            // EEA・英国など、広告の同意を後から変更できる入口が必要な地域でだけ出す
+            // (UMPの要件。CLAUDE.md 8章、readygo-speakと同じ)。
+            ValueListenableBuilder<bool>(
+              valueListenable: AdsService.privacyOptionsRequired,
+              builder: (context, required, _) => required
+                  ? const ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(Icons.privacy_tip_outlined),
+                      title: Text('広告のプライバシー設定'),
+                      onTap: AdsService.showPrivacyOptions,
+                    )
+                  : const SizedBox.shrink(),
             ),
             const SizedBox(height: 32),
             const _SectionTitle('このアプリについて'),

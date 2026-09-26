@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../ads/banner_ad_slot.dart';
+import '../config/ad_config.dart';
 import '../data/progress_repository.dart';
 import '../models/entry.dart';
 import '../models/study_progress.dart';
@@ -15,6 +17,8 @@ class HistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('履歴')),
+      // バナーは画面下部(CLAUDE.md 8章)。広告が無いときは高さ0になる。
+      bottomNavigationBar: BannerAdSlot(adUnitId: AdConfig.bottomBanner),
       body: SafeArea(
         child: ValueListenableBuilder<ProgressState>(
           valueListenable: ProgressRepository.instance.state,

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 
+import 'ads/ads_service.dart';
 import 'data/api_client.dart';
 import 'data/remote_config_repository.dart';
 import 'data/study_repository.dart';
@@ -24,6 +25,8 @@ Future<void> main() async {
   runApp(const ReadyGoPhraseApp());
   // 強制アップデート・メンテナンスの判定。取れなくても学習は止めない。
   unawaited(RemoteConfigRepository.instance.refresh());
+  // 同意フォームの表示に画面が要るため runApp の後。起動は待たせない。
+  unawaited(AdsService.init());
   // 匿名ユーザーを先に発行しておき、前回送れなかったフリップがあれば送る。
   unawaited(ApiClient.instance.warmUp().then((_) => StudyRepository.instance.flush()));
 }
