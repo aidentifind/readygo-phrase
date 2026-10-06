@@ -67,6 +67,11 @@ ReadyGo Phrase用にはシリーズ頭文字ロゴ(P、前傾-5°)を2026-09-26�
   Play Consoleの「広告を含む」申告とデータセーフティ(広告ID)。いずれもSpeak側でも
   未対応のまま残っている項目(readygo-speak/CLAUDE.md 8章参照)
 
+## ブランチ運用(develop / main、2026-10-06導入)
+
+readygo-speak・readygo-speak-apiと同じ考え方(詳細は[docs/RELEASE_FLOW.md](docs/RELEASE_FLOW.md)):
+普段の開発は`develop`、ストア提出に向けたリリース作業のときだけ`main`を進める。
+
 ## 技術スタック
 
 - **フロントエンド**: Flutter(readygo-speakと同じ構成方針。状態管理はProvider/Riverpod等を
@@ -104,5 +109,15 @@ ReadyGo Phrase用にはシリーズ頭文字ロゴ(P、前傾-5°)を2026-09-26�
       ReadyGo Speakの`site/speak/index.html`を踏襲、ロゴは本アプリの「P」マークを使用)。
       アプリ未公開のため、CTAは引き続き「Android版 近日公開」の非活性表示(代わりにReadyGo Speakの
       Google Playページへ誘導)。**アプリを公開したら、CTAをストアリンクに差し替えてから再デプロイすること**
+- [ ] プライバシーポリシーの文面確認(2026-10-06発見): `AppConfig.privacyPolicyUrl`に設定した
+      aidentifind共通ポリシーは「学習履歴は端末内のみ保存」としているが、Phraseの実装(§2.2)は
+      フリップ結果を`phrase_study_statuses`としてサーバーに送信している。readygo-speak側でも
+      同じ矛盾が見つかっており(readygo-speak/CLAUDE.md参照)、運営者によるポリシー文面の修正が必要
+- [ ] Android本番署名(アップロード鍵)の設定。Gradle側の雛形(`android/app/build.gradle.kts`が
+      `android/key.properties`の有無で自動的にdebug/release鍵を切り替える仕組み)と手順書
+      (`android/RELEASE_SIGNING.md`)は2026-10-06に準備済み。実際のアップロード鍵の作成・
+      `android/key.properties`の作成はTK本人が行う必要がある
+- [ ] `develop`ブランチの初回セットアップ(2026-10-06、`docs/RELEASE_FLOW.md`参照)。ローカルには
+      作成済みだが、push・GitHubのDefault branch変更・`main`のブランチ保護はまだ
 - [ ] `docs/HANDOVER.md` §6 未決事項の #3〜#5(フリップ実装方式・例文の可変数・履歴の表示内容)は
       実装時に妥当な側で進めた。TKの確認を推奨
