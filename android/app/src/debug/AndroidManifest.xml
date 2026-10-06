@@ -4,4 +4,9 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- デバッグビルドのみ、ローカルのRails開発サーバー(http://<Macのローカル内IP>:3001、
+         app_config.dartのAPI_BASE_URL)にHTTPで繋げるようにする。Android 9以降は
+         平文HTTPが既定で禁止される(release/profileはHTTPSのみのため対象外)。
+         readygo-speakと同じ対応(2026-09-25)。 -->
+    <application android:usesCleartextTraffic="true"/>
 </manifest>

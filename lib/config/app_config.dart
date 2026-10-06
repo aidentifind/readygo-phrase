@@ -26,9 +26,7 @@ class AppConfig {
     defaultValue: 'https://cdn.readygo-english.space',
   );
 
-  /// 設定画面「このアプリについて」のリンク先。
-  /// 【提案】readygo-english.space/phrase/ はReadyGo Speakの /speak/ に倣った想定パスで、
-  /// サイト側(readygo-speak-api/site/)にまだ用意していない。実際に公開してから確定させること。
+  /// 設定画面「このアプリについて」のリンク先(2026-09-26公開済み、readygo-speak-api/site/phrase/)。
   static const String siteUrl = 'https://readygo-english.space/phrase/';
   static const String operatorName = 'aidentifind';
   static const String operatorUrl = 'https://aidentifind.jp';
@@ -40,6 +38,11 @@ class AppConfig {
       ? null
       : 'https://play.google.com/store/apps/details?id=space.readygo_english.phrase';
 
-  /// プライバシーポリシーのURL。決まるまでは null(設定画面に項目を出さない)。
-  static const String? privacyPolicyUrl = null;
+  /// プライバシーポリシーのURL(readygo-speakが2026-10-03に確定したものと同じ。
+  /// aidentifindの全サービス共通ポリシーで、「ReadyGo」ブランドのアプリを明示的に対象に含む。
+  /// Phrase側で個別に文面は持たない)。Google Play・App Store Connectのストア掲載情報にも登録すること。
+  static const String? privacyPolicyUrl = 'https://aidentifind.jp/privacy-policy.html';
+
+  /// 利用規約のURL(readygo-speakと同じくaidentifind全サービス共通)。
+  static const String termsOfServiceUrl = 'https://aidentifind.jp/terms-of-use.html';
 }

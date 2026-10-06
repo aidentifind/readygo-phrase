@@ -88,6 +88,11 @@ class SettingsScreen extends StatelessWidget {
                 url: url,
               ),
             const _LinkTile(
+              icon: Icons.description_rounded,
+              title: '利用規約',
+              url: AppConfig.termsOfServiceUrl,
+            ),
+            const _LinkTile(
               icon: Icons.business_rounded,
               title: '運営者(${AppConfig.operatorName})',
               url: AppConfig.operatorUrl,
