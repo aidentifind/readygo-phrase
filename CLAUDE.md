@@ -93,11 +93,16 @@ ReadyGo Phrase用にはシリーズ頭文字ロゴ(P、前傾-5°)を2026-09-26�
       readygo-speakのコンテンツ生成プロンプトテンプレートを参照
 - [x] 広告(AdMob)。2026-09-26、バナー広告をreadygo-speakと同じ仕様で実装・本番ID設定済み
       (「収益モデル」章参照)。GDPRメッセージ・app-ads.txt・Play Consoleの広告申告は未対応
-- [ ] readygo-speak-apiのデプロイ(Render)・CORS設定にReadyGo Phraseのドメイン/アプリを反映
-- [x] サイト(`readygo-english.space/phrase/`)を作成(2026-09-26、`readygo-speak-api/site/phrase/index.html`。
-      デザイン・コード構成はReadyGo Speakの`site/speak/index.html`を踏襲、ロゴは本アプリの「P」マークを使用)。
-      アプリ未公開のため、CTAは「Android版 近日公開」の非活性表示にして、代わりにReadyGo Speakの
-      Google Playページへ誘導している。**まだ`deploy-site.sh`でデプロイしていない**(ローカルにファイルを
-      置いただけ)。アプリを公開したら、CTAをストアリンクに差し替えてからデプロイすること
+- [x] readygo-speak-apiのデプロイ(Render)。確認済み: 本番(`api.readygo-english.space`)が稼働中で、
+      `/api/v1/phrase/entries`が111件を正しく返す(2026-10-06確認)。CORSは`readygo-english.space`
+      オリジンを本番許可済みで、アプリ本体(Android/iOS)はそもそもCORS対象外のため追加対応は不要。
+      2026-10-04、`develop`/`main`ブランチ+Render dev/prod環境分離を導入(詳細は
+      `readygo-speak-api/docs/RELEASE_FLOW.md`)。例文等を変更したら`develop`にpushし、
+      `api-dev.readygo-english.space`で確認してから`main`へPRする運用に変わった
+- [x] サイト(`readygo-english.space/phrase/`)を作成・デプロイ済み(2026-09-26作成、2026-10-06時点で
+      実際に公開されていることを確認。`readygo-speak-api/site/phrase/index.html`、デザイン・コード構成は
+      ReadyGo Speakの`site/speak/index.html`を踏襲、ロゴは本アプリの「P」マークを使用)。
+      アプリ未公開のため、CTAは引き続き「Android版 近日公開」の非活性表示(代わりにReadyGo Speakの
+      Google Playページへ誘導)。**アプリを公開したら、CTAをストアリンクに差し替えてから再デプロイすること**
 - [ ] `docs/HANDOVER.md` §6 未決事項の #3〜#5(フリップ実装方式・例文の可変数・履歴の表示内容)は
       実装時に妥当な側で進めた。TKの確認を推奨
