@@ -25,7 +25,9 @@
 |---|---|
 | サービス名 | ReadyGo Phrase 【決定】 |
 | ブランド位置づけ | `ReadyGo` シリーズのスピンオフ。`ReadyGo Speak`(瞬間英作文)とは別スタンドアロンアプリ 【決定】 |
-| コンテンツの軸 | 句動詞(phrasal verbs)中心、熟語(idioms)を第2カテゴリとして含む単語帳アプリ 【決定】 |
+| コンテンツの軸 | 句動詞(phrasal verbs)中心、熟語(idioms)を第2カテゴリとして含む単語帳アプリ 【決定】。
+  2026-10-06、単語(word)を第3カテゴリとして追加 【決定】(Vocabを別アプリにするほどの規模ではないため、
+  Phraseの既存UI・レベル分けにそのまま統合する方針。マーケティング文言は句動詞・熟語訴求のまま変更しない) |
 | ペルソナ | Speak と同じ、留学・ワーキングホリデー準備者を想定 【決定(Speakからの継承)】 |
 
 > **Speak との設計思想の違い(注意)**
@@ -120,12 +122,12 @@ Speak のバックエンド(`readygo-speak/CLAUDE.md` 9章、`readygo-speak-api`
 | `id` | string PK | `{expression_slug}_{sense_no}`(例: `pick_up_01`)。Speakの`sentences.id`と同じ
   発想の安定した文字列ID(実装時の判断。本書案のbigint PKから変更。理由: 音声ファイル名の
   ベースにでき、コンテンツ再投入(JSON is source of truth)時にも安定する) |
-| `expression` | string | 見出し句動詞・熟語(例: `pick up`) |
-| `kind` | integer (enum) | `phrasal_verb` / `idiom` |
+| `expression` | string | 見出し句動詞・熟語・単語(例: `pick up`) |
+| `kind` | integer (enum) | `phrasal_verb` / `idiom` / `word`(2026-10-06追加) |
 | `sense_no` | integer | 同一表現内での語義通し番号(1語義=1エントリ) |
 | `level` | integer (enum) | `toeic_lt600` / `toeic_600_700` / `toeic_800_900` |
 | `meaning_ja` | string | 日本語の意味 |
-| `separable` | boolean NULL | 分離可能な句動詞か(idiom では NULL) |
+| `separable` | boolean NULL | 分離可能な句動詞か(idiom・word では NULL) |
 | `register` | integer (enum) NULL | `casual` / `neutral` |
 | `region` | integer (enum) NULL | `common` / `us` / `uk` / `au` |
 | `status` | integer (enum) | Speak と同様の `draft` / `ai_checked` / `in_review` / `published` / `archived` |

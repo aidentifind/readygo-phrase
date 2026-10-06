@@ -6,7 +6,7 @@
 ## プロダクト概要
 
 - **サービス名**: ReadyGo Phrase。"ReadyGo" をマスターブランドとし、機能別にサブネームを付ける
-  命名戦略(`readygo-speak/CLAUDE.md` 1章)の2つ目のアプリ。句動詞・熟語学習アプリ
+  命名戦略(`readygo-speak/CLAUDE.md` 1章)の2つ目のアプリ。句動詞・熟語・単語学習アプリ
 - **ターゲット**: [ReadyGo Speak](https://github.com/aidentifind/readygo-speak) と同じ、
   留学・ワーホリ渡航を控えた日本人準備層
 - **コアコンセプト**: カードをフリップして目で判定するフラッシュカードUI。

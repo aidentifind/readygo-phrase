@@ -80,21 +80,28 @@ class EntryExample {
   }
 }
 
-enum EntryKind { phrasalVerb, idiom }
+/// word(単語)は2026-10-06追加。句動詞・熟語中心の方針に単語も自然に組み込むことにした
+/// (TK確認済み。「Vocabという別アプリを作るほどではない」ため、Phraseの既存UIをそのまま使う)。
+enum EntryKind { phrasalVerb, idiom, word }
 
 extension EntryKindApi on EntryKind {
   String get apiValue => switch (this) {
     EntryKind.phrasalVerb => 'phrasal_verb',
     EntryKind.idiom => 'idiom',
+    EntryKind.word => 'word',
   };
 
   String get label => switch (this) {
     EntryKind.phrasalVerb => '句動詞',
     EntryKind.idiom => '熟語',
+    EntryKind.word => '単語',
   };
 
-  static EntryKind fromApi(String value) =>
-      value == 'idiom' ? EntryKind.idiom : EntryKind.phrasalVerb;
+  static EntryKind fromApi(String value) => switch (value) {
+    'idiom' => EntryKind.idiom,
+    'word' => EntryKind.word,
+    _ => EntryKind.phrasalVerb,
+  };
 }
 
 /// レベル定義(readygo-speak-api docs/HANDOVER.md 2.1章、TOEIC換算3段階)。

@@ -1,6 +1,6 @@
 # ReadyGo Phrase
 
-句動詞・熟語学習アプリ。[ReadyGo Speak](https://github.com/aidentifind/readygo-speak) の
+句動詞・熟語・単語学習アプリ。[ReadyGo Speak](https://github.com/aidentifind/readygo-speak) の
 スピンオフで、バックエンド([readygo-speak-api](https://github.com/aidentifind/readygo-speak-api))を
 共有している。仕様は [`docs/HANDOVER.md`](docs/HANDOVER.md)、開発方針は [`CLAUDE.md`](CLAUDE.md) を参照。
 
