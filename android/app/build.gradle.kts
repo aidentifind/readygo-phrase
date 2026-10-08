@@ -18,7 +18,8 @@ if (hasReleaseKeystore) {
 }
 
 android {
-    namespace = "space.readygoenglish.readygo_phrase"
+    // Speakと同じ命名規則で確定(2026-10-08、CLAUDE.md参照)。公開後は変更不可なので要注意。
+    namespace = "space.readygo_english.phrase"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -28,8 +29,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "space.readygoenglish.readygo_phrase"
+        applicationId = "space.readygo_english.phrase"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

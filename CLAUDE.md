@@ -88,10 +88,11 @@ readygo-speak・readygo-speak-apiと同じ考え方(詳細は[docs/RELEASE_FLOW.
       `android/`・`ios/`を生成済み。パッケージ名/Bundle IDは仮値のまま(下記未決事項参照)
 - [x] ReadyGo Phrase専用ロゴのデザイン。2026-09-26確定、アプリアイコンに反映済み
       (`assets/branding/README.md`参照)。アプリ内プレースホルダー・起動画面への適用は未着手
-- [ ] パッケージ名/Bundle ID・ストアURLは`space.readygo_english.phrase`
-      (`lib/config/app_config.dart`)で仮置き。Speakの命名規則を踏襲した想定値で、正式決定ではない。
-      `flutter create`が自動生成した実際の値(`space.readygoenglish.readygo_phrase` /
-      `space.readygo-english.readygoPhrase`)とも異なるため、正式決定時にどちらも揃える必要がある
+- [x] パッケージ名/Bundle IDを2026-10-08確定。Speakと同じ命名規則
+      Android `space.readygo_english.phrase`・iOS `space.readygo-english.phrase`。
+      `android/app/build.gradle.kts`(namespace/applicationId)・Kotlinパッケージディレクトリ・
+      `ios/Runner.xcodeproj/project.pbxproj`(PRODUCT_BUNDLE_IDENTIFIER)を`flutter create`の
+      自動生成値から修正し、リリースビルド(署名・`flutter build ios`)で反映確認済み
 - [x] 本番投入分の句動詞・熟語コンテンツ。2026-09-25、TOEICレベル別111件を投入済み
       (`readygo-speak-api/db/seed_data/phrase/readygo-phrase-seed-content.json`、旧
       `entries_v1.json`の9件サンプルから置き換え)。追加・更新の作り方は`docs/HANDOVER.md` 3.1章・

@@ -32,8 +32,9 @@ class AppConfig {
   static const String operatorUrl = 'https://aidentifind.jp';
 
   /// アップデートの案内(GET /api/v1/phrase/app_config)から開くストアのページ。
-  /// 【提案】パッケージ名/Bundle IDはReadyGo Speak(space.readygo_english.speak /
-  /// space.readygo-english.speak)の命名規則を踏襲した想定値。ストアにアプリを作るまでは仮。
+  /// パッケージ名/Bundle IDはReadyGo Speak(space.readygo_english.speak /
+  /// space.readygo-english.speak)と同じ命名規則で2026-10-08確定
+  /// (android/app/build.gradle.kts・ios/Runner.xcodeproj/project.pbxprojも同時に修正済み)。
   static String? get storeUrl => defaultTargetPlatform == TargetPlatform.iOS
       ? null
       : 'https://play.google.com/store/apps/details?id=space.readygo_english.phrase';
