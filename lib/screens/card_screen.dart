@@ -101,6 +101,7 @@ class _CardScreenState extends State<CardScreen> {
     _revealed = false;
     _shownAt = DateTime.now();
     _remainingMs = StudySettings.revealSeconds.value * 1000;
+    final entry = _current;
     _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
       setState(() {
         _remainingMs -= 100;
@@ -110,6 +111,11 @@ class _CardScreenState extends State<CardScreen> {
           timer.cancel();
         }
       });
+      // 意味が表示されたタイミングで発音を自動再生する(2026-10-10)。
+      // 意味表示前にフリップした場合はタイマーごとキャンセルされるため鳴らない。
+      if (_revealed) {
+        unawaited(_play(entry.expressionAudioUrl));
+      }
     });
     setState(() {});
   }
