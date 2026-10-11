@@ -16,6 +16,8 @@ import 'package:readygo_phrase/data/entry_repository.dart';
 import 'package:readygo_phrase/main.dart';
 import 'package:readygo_phrase/models/entry.dart';
 
+import 'fake_credential_storage.dart';
+
 http.Response _json(Object body, [int status = 200]) => http.Response.bytes(
   utf8.encode(jsonEncode(body)),
   status,
@@ -42,7 +44,10 @@ http.Response _userApi(http.Request request) {
 void main() {
   setUp(() {
     SharedPreferences.setMockInitialValues({});
-    ApiClient.instance = ApiClient(client: MockClient((r) async => _userApi(r)));
+    ApiClient.instance = ApiClient(
+      storage: FakeCredentialStorage(),
+      client: MockClient((r) async => _userApi(r)),
+    );
     EntryRepository.instance = EntryRepository(
       client: MockClient(
         (request) async => _json([
