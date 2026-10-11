@@ -11,14 +11,14 @@ class AdConfig {
   /// カード画面(学習・復習)の上部。下部に「覚えている/わからない」ボタンがあり、
   /// 近くに置くと誤タップ誘発でAdMobポリシー違反になりやすいため上に置く。
   static String get studyTopBanner => _pick(
-    android: 'ca-app-pub-5922624949407858/1804857011',
-    ios: 'ca-app-pub-5922624949407858/5568842204',
+    android: 'ca-app-pub-5922624949407858/9616009798',
+    ios: 'ca-app-pub-5922624949407858/1182066134',
   );
 
   /// レベル選択・モード選択・履歴・設定の下部。
   static String get bottomBanner => _pick(
-    android: 'ca-app-pub-5922624949407858/3105581966',
-    ios: 'ca-app-pub-5922624949407858/8087369347',
+    android: 'ca-app-pub-5922624949407858/3413563524',
+    ios: 'ca-app-pub-5922624949407858/3174813812',
   );
 
   // https://developers.google.com/admob/android/test-ads#demo_ad_units
