@@ -24,6 +24,8 @@ dependencies:
   # iOSでは既定の ambient カテゴリになり、音量が小さく消音スイッチの影響も受ける)
   audio_session: ^0.2.4
   shared_preferences: ^2.5.5
+  # 匿名ユーザーの認証トークンをiOS Keychain/Android Keystoreに保存するために使用(Security issue #3)
+  flutter_secure_storage: ^11.2.0
   # 設定画面の「このアプリについて」から公式サイト・運営者を開く
   url_launcher: ^6.3.2
   # 設定画面にアプリのバージョンを出す

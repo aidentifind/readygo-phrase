@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/app_config.dart';
+import 'credential_storage.dart';
 import 'network_activity.dart';
 
 /// readygo-speak-api の、ユーザーごとのデータを扱うAPI(study_sessions・review_queue・progress)の呼び出し。
@@ -15,16 +16,23 @@ import 'network_activity.dart';
 ///
 /// サーバー側でユーザーが見つからない(401)ときは、トークンを捨てて発行し直す。
 /// その場合、それまでの学習記録は引き継げない。
+///
+/// トークンは iOS Keychain / Android Keystore(flutter_secure_storage)に保存する
+/// (Security issue #3)。旧版(SharedPreferences平文保存)からは初回アクセス時に移行し、
+/// 移行後は旧値を削除する。
 class ApiClient {
-  ApiClient({http.Client? client}) : _client = client ?? http.Client();
+  ApiClient({http.Client? client, TokenStorage? storage})
+    : _client = client ?? http.Client(),
+      _storage = storage ?? const SecureTokenStorage();
 
   /// テストでは `ApiClient.instance = ApiClient(client: MockClient(...))` で差し替える。
   static ApiClient instance = ApiClient();
 
-  static const _tokenKey = 'api_token';
+  static const _legacyTokenKey = 'api_token';
   static const _timeout = Duration(seconds: 10);
 
   final http.Client _client;
+  final TokenStorage _storage;
   String? _token;
   Future<String>? _registering;
 
@@ -62,12 +70,36 @@ class ApiClient {
     final cached = _token;
     if (cached != null) return cached;
 
-    final prefs = await SharedPreferences.getInstance();
-    final saved = prefs.getString(_tokenKey);
-    if (saved != null) return _token = saved;
+    final saved = await _storage.read();
+    if (saved != null) {
+      // 前回、安全な保存先への書き込み後に旧版の削除まで完了しなかった場合に備えて
+      // 毎回削除を試みる(無ければ何もしない)。
+      await _deleteLegacyToken();
+      return _token = saved;
+    }
+
+    final migrated = await _migrateLegacyToken();
+    if (migrated != null) return _token = migrated;
 
     // 同時に複数の呼び出しが来ても、発行は1回だけにする。
     return _registering ??= _register().whenComplete(() => _registering = null);
+  }
+
+  Future<void> _deleteLegacyToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_legacyTokenKey);
+  }
+
+  // 旧版(SharedPreferences平文保存)のトークンを見つけたら安全な保存先に移し、
+  // 旧版の値は削除する。
+  Future<String?> _migrateLegacyToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final legacy = prefs.getString(_legacyTokenKey);
+    if (legacy == null) return null;
+
+    await _storage.write(legacy);
+    await prefs.remove(_legacyTokenKey);
+    return legacy;
   }
 
   Future<String> _register() async {
@@ -79,15 +111,13 @@ class ApiClient {
     }
     final token =
         (jsonDecode(response.body) as Map<String, dynamic>)['token'] as String;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_tokenKey, token);
+    await _storage.write(token);
     return _token = token;
   }
 
   Future<void> _forgetToken() async {
     _token = null;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_tokenKey);
+    await _storage.delete();
   }
 
   static Uri _uri(String path, Map<String, dynamic>? query) =>
