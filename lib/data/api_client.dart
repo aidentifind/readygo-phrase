@@ -71,13 +71,23 @@ class ApiClient {
     if (cached != null) return cached;
 
     final saved = await _storage.read();
-    if (saved != null) return _token = saved;
+    if (saved != null) {
+      // 前回、安全な保存先への書き込み後に旧版の削除まで完了しなかった場合に備えて
+      // 毎回削除を試みる(無ければ何もしない)。
+      await _deleteLegacyToken();
+      return _token = saved;
+    }
 
     final migrated = await _migrateLegacyToken();
     if (migrated != null) return _token = migrated;
 
     // 同時に複数の呼び出しが来ても、発行は1回だけにする。
     return _registering ??= _register().whenComplete(() => _registering = null);
+  }
+
+  Future<void> _deleteLegacyToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_legacyTokenKey);
   }
 
   // 旧版(SharedPreferences平文保存)のトークンを見つけたら安全な保存先に移し、

@@ -61,6 +61,21 @@ void main() {
     expect(prefs.getString('api_token'), isNull);
   });
 
+  test('移行が完了せず両方の保存先に値がある状態で起動しても、安全な保存先の値を使い旧版を削除する', () async {
+    SharedPreferences.setMockInitialValues({'api_token': 'legacy-token'});
+    final storage = FakeCredentialStorage();
+    await storage.write('migrated-token');
+    final requests = <http.Request>[];
+    final api = client(storage: storage, requests: requests);
+
+    await api.get('/api/v1/phrase/progress');
+
+    expect(requests.single.headers['Authorization'], 'Bearer migrated-token');
+    expect(requests.where((r) => r.url.path == '/api/v1/users'), isEmpty);
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getString('api_token'), isNull);
+  });
+
   test('401のときは保存先のトークンを捨てて再発行する', () async {
     final storage = FakeCredentialStorage();
     await storage.write('stale-token');
