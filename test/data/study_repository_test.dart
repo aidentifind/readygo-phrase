@@ -9,12 +9,15 @@ import 'package:readygo_phrase/data/api_client.dart';
 import 'package:readygo_phrase/data/study_repository.dart';
 import 'package:readygo_phrase/models/entry.dart';
 
+import '../fake_credential_storage.dart';
+
 /// POST /api/v1/users には常にダミートークンを返し、それ以外は [respond] に渡す。
 ApiClient _apiWith(
   http.Response Function(http.Request request) respond, {
   List<http.Request>? requests,
 }) {
   return ApiClient(
+    storage: FakeCredentialStorage(),
     client: MockClient((request) async {
       requests?.add(request);
       if (request.url.path == '/api/v1/users') {

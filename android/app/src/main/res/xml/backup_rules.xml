@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 11以下向けのAuto Backup設定(Security issue #4)。
+     flutter_secure_storageが暗号鍵をAndroid Keystoreに保存するEncryptedSharedPreferencesで、
+     匿名ユーザーのトークン(lib/data/api_client.dart)を保存している。Keystoreの鍵自体は
+     Auto Backupの対象外でOSにより保護されるため、復元しても暗号化された値は復号できないが、
+     保存先そのものを明示的にバックアップ対象から除外する。 -->
+<full-backup-content>
+    <exclude domain="sharedpref" path="FlutterSecureStorage.xml"/>
+</full-backup-content>

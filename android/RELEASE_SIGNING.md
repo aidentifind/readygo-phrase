@@ -1,9 +1,20 @@
 # Play Store向け本番署名(アップロード鍵)の設定
 
 `android/app/build.gradle.kts` は `android/key.properties` があればそれを使って
-リリースビルドに署名し、無ければこれまで通りdebug鍵でビルドする(`flutter run --release`
-が引き続き動くように)。`key.properties` 自体は `.gitignore` 済みなのでコミットされない。
-readygo-speakと同じ仕組み。
+リリースビルドに署名する。`key.properties` 自体は `.gitignore` 済みなのでコミットされない。
+
+`key.properties` が無い状態で配布用ビルド(`flutter build apk --release`・
+`flutter build appbundle --release`。Play Store提出)を実行すると、意図せずdebug鍵で
+署名されたものを提出してしまう事故を防ぐため、明確なエラーで止まる(Security issue #5)。
+ローカルでreleaseモードの動作確認だけしたい場合(`flutter run --release`)は、
+debug鍵へのフォールバックを明示的に許可する必要がある:
+
+```
+ORG_GRADLE_PROJECT_allowDebugRelease=true flutter run --release
+```
+
+(Flutterのgradle実行はシェルの環境変数を引き継ぐため、`ORG_GRADLE_PROJECT_<name>`という
+Gradle標準の仕組みでプロジェクトプロパティ`allowDebugRelease`を渡せる。)
 
 ## 手順
 
