@@ -125,3 +125,21 @@ readygo-speak・readygo-speak-apiと同じ考え方(詳細は[docs/RELEASE_FLOW.
       作成済みだが、push・GitHubのDefault branch変更・`main`のブランチ保護はまだ
 - [ ] `docs/HANDOVER.md` §6 未決事項の #3〜#5(フリップ実装方式・例文の可変数・履歴の表示内容)は
       実装時に妥当な側で進めた。TKの確認を推奨
+- [ ] **App Store提出準備(2026-10-13着手、Androidに次ぐ初のiOS提出)**: ビルド確認・スクリーンショット・
+      掲載情報ドラフトまでは完了。残りはTK本人のApple Developer アカウントでの作業が必要
+  - [x] `flutter build ios --release --no-codesign`でリリースビルドが通ることを確認済み(Xcode 27.0)
+  - [x] App Store向けスクリーンショット(6.9インチクラス、1320×2868)をiPhone 16 Pro Max
+        シミュレータで撮影済み(`scripts/store-assets/raw-ios/`、撮り方は`docs/APP_STORE_ASSETS.md`)
+  - [x] App Store Connect掲載情報(アプリ名・サブタイトル・説明・キーワード・プライバシー申告の
+        事実整理)のドラフトを作成済み(`docs/APP_STORE_LISTING.md`)
+  - [ ] **要TK対応**: `ios/Runner.xcodeproj/project.pbxproj`に署名チーム(`DEVELOPMENT_TEAM`)が
+        未設定(`CODE_SIGN_STYLE = Automatic`のままチームIDが入っていない)。Xcodeで
+        Signing & Capabilities からTKのApple Developer Programのチームを選択する必要がある。
+        readygo-speakは個人アカウント(`FP82665GWP`)で暫定設定していたが、DUNS取得による
+        Organizationアカウントへの切り替えが完了しているかを含めて確認すること
+  - [ ] **要TK対応**: App Store ConnectでPhraseのApp情報(Bundle ID
+        `space.readygo-english.phrase`)を新規作成し、`docs/APP_STORE_LISTING.md`の内容を登録する
+  - [ ] **要TK対応**: 署名済みのアーカイブ作成(`flutter build ipa --release`、または
+        Xcode Organizer経由)とApp Store Connectへのアップロード(Transporter等)
+  - [ ] 本番署名後、`AppConfig.storeUrl`(iOS側)にApp StoreのアプリIDを設定すること
+        (readygo-speak/CLAUDE.md 3章の同様の記述を参照。nullの間はストアへのボタンを出さない設計)
