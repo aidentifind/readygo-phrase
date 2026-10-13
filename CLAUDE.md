@@ -132,11 +132,11 @@ readygo-speak・readygo-speak-apiと同じ考え方(詳細は[docs/RELEASE_FLOW.
         シミュレータで撮影済み(`scripts/store-assets/raw-ios/`、撮り方は`docs/APP_STORE_ASSETS.md`)
   - [x] App Store Connect掲載情報(アプリ名・サブタイトル・説明・キーワード・プライバシー申告の
         事実整理)のドラフトを作成済み(`docs/APP_STORE_LISTING.md`)
-  - [ ] **要TK対応**: `ios/Runner.xcodeproj/project.pbxproj`に署名チーム(`DEVELOPMENT_TEAM`)が
-        未設定(`CODE_SIGN_STYLE = Automatic`のままチームIDが入っていない)。Xcodeで
-        Signing & Capabilities からTKのApple Developer Programのチームを選択する必要がある。
-        readygo-speakは個人アカウント(`FP82665GWP`)で暫定設定していたが、DUNS取得による
-        Organizationアカウントへの切り替えが完了しているかを含めて確認すること
+  - [x] 署名チーム(`DEVELOPMENT_TEAM`)を設定済み(2026-10-13)。個人アカウントのチームID
+        `FP82665GWP`がApple Developer Program(Organization)にそのまま引き継がれたとのことで、
+        readygo-speakと同じチームIDを`ios/Runner.xcodeproj/project.pbxproj`のRunnerターゲット
+        3構成(Debug/Release/Profile。RunnerTestsは対象外、Speakと同じ)に設定。
+        署名ありの`flutter build ios --release`で実機向けビルドが通ることを確認済み
   - [ ] **要TK対応**: App Store ConnectでPhraseのApp情報(Bundle ID
         `space.readygo-english.phrase`)を新規作成し、`docs/APP_STORE_LISTING.md`の内容を登録する
   - [ ] **要TK対応**: 署名済みのアーカイブ作成(`flutter build ipa --release`、または
