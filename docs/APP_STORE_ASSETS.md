@@ -1,8 +1,8 @@
 # App Store掲載画像
 
-App Store Connect にアップロードするスクリーンショットの作り方。[docs/PLAY_STORE_ASSETS.md](PLAY_STORE_ASSETS.md)
-(Google Play向け)と同じ方式A(生スクショ、見出し+電話フレームの「方式B」は採用しない。
-`readygo-speak`は方式Bだが、Phraseは元々Android側も方式Aで統一しているため、iOSも揃える)。
+App Store Connect にアップロードするスクリーンショットの作り方。**方式B(見出し+電話フレーム)を
+採用**(2026-10-14、TK指示により`readygo-speak`と同じ方式に変更。Android版
+[docs/PLAY_STORE_ASSETS.md](PLAY_STORE_ASSETS.md)は方式Aのまま)。
 
 ## サイズ
 
@@ -11,16 +11,23 @@ Appleは2026-10-03時点で「6.9インチクラス」(iPhone 16 Pro Max相当�
 (6.5インチクラス等を個別に用意する必要はない)。iPhone 16 Pro Maxのシミュレータはこのサイズと
 ちょうど一致するため、追加の拡大縮小なしでそのまま使える。
 
-## 書き出し済みの画像(`scripts/store-assets/raw-ios/`、2026-10-13撮影)
+## 書き出し済みの画像
 
-| # | ファイル | 画面 |
-|---|---|---|
-| 1 | `1-home.png` | レベル選択(起動直後) |
-| 2 | `2-mode.png` | モード選択(学習/復習) |
-| 3 | `3-card-phrasal.png` | カード・句動詞(call off、意味+例文3件) |
-| 4 | `4-card-word.png` | カード・単語(achieve) |
-| 5 | `5-home-highlighted.png` | レベル選択(前回選択=レベル中がハイライト表示) |
-| 6 | `6-history.png` | 履歴(レベル別の内訳+最近の学習2件) |
+元スクショ(`scripts/store-assets/raw-ios/`、2026-10-13撮影):
+
+| # | ファイル | 画面 | 見出し(方式Bのコピー) |
+|---|---|---|---|
+| 1 | `1-home.png` | レベル選択(起動直後) | TOEICレベルを選んで、めくるだけ。 |
+| 2 | `2-mode.png` | モード選択(学習/復習) | 学習と復習、ワンタップで切り替え。 |
+| 3 | `3-card-phrasal.png` | カード・句動詞(call off、意味+例文3件) | 知ってる単語なのに、意味が出てこない。 |
+| 4 | `4-card-word.png` | カード・単語(achieve) | 句動詞・熟語だけじゃない、単語も。 |
+| 5 | `5-home-highlighted.png` | レベル選択(前回選択=レベル中がハイライト表示) | 前回のレベルを、ハイライト表示。 |
+| 6 | `6-history.png` | 履歴(レベル別の内訳+最近の学習2件) | わからなかった分だけ、ちゃんと復習。 |
+
+App Store Connectにアップロードする完成画像(`scripts/store-assets/out/framed-ios/`、方式B・
+見出し+電話フレーム付き、1320×2868)は`scripts/store-assets/render-ios.sh`で生成
+(`screenshot-ios.html`をヘッドレスChromeで開いて書き出す、`readygo-speak`の`render.sh`と同じ方式)。
+生スクショのみの方式A版も`scripts/store-assets/out/raw-ios/`に同時出力している(未使用)。
 
 Play Store版([docs/PLAY_STORE_ASSETS.md](PLAY_STORE_ASSETS.md))の#5は起動直後の「通信中」表示を
 狙ったものだったが、ローカルAPIが速すぎて撮影手段(起動直後にスクリーンショット)では再現できなかった
@@ -53,6 +60,9 @@ Play Store版([docs/PLAY_STORE_ASSETS.md](PLAY_STORE_ASSETS.md))の#5は起動�
 8. 各画面を`xcrun simctl io <UDID> screenshot`で`scripts/store-assets/raw-ios/`に直接1320×2868で保存
    (iOSのスクショはステータスバー・ホームインジケータ込みでそのまま使えるので、Androidのような
    バー切り落とし加工は不要)
+9. `scripts/store-assets/render-ios.sh`を実行し、`screenshot-ios.html`(Android版`screenshot.html`の
+   iOS移植版。キャンバス1320×2868、電話フレームの比率をiPhoneの実際の縦横比に合わせてある)を
+   ヘッドレスChromeで開いて`out/framed-ios/`・`out/raw-ios/`に書き出す。見出しコピーは上表参照
 
 履歴画面(#6)は真っさらな新規匿名ユーザーだと棒グラフがほぼ見えないため、レベル中のカードを
 10件ほど「覚えている」「わからない」で学習してから撮影した。
@@ -61,4 +71,3 @@ Play Store版([docs/PLAY_STORE_ASSETS.md](PLAY_STORE_ASSETS.md))の#5は起動�
 
 - アプリアイコン以外のブランド素材(起動画面等)は`CLAUDE.md`の「ブランド・デザインシステム」章の
   とおり未着手のまま
-- Android同様、方式B(見出し+電話フレーム)にするかは未決
