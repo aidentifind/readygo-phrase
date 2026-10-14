@@ -128,18 +128,25 @@ readygo-speak・readygo-speak-apiと同じ考え方(詳細は[docs/RELEASE_FLOW.
 - [ ] **App Store提出準備(2026-10-13着手、Androidに次ぐ初のiOS提出)**: ビルド確認・スクリーンショット・
       掲載情報ドラフトまでは完了。残りはTK本人のApple Developer アカウントでの作業が必要
   - [x] `flutter build ios --release --no-codesign`でリリースビルドが通ることを確認済み(Xcode 27.0)
-  - [x] App Store向けスクリーンショット(6.9インチクラス、1320×2868)をiPhone 16 Pro Max
-        シミュレータで撮影済み(`scripts/store-assets/raw-ios/`、撮り方は`docs/APP_STORE_ASSETS.md`)
-  - [x] App Store Connect掲載情報(アプリ名・サブタイトル・説明・キーワード・プライバシー申告の
-        事実整理)のドラフトを作成済み(`docs/APP_STORE_LISTING.md`)
+  - [x] App Store向けスクリーンショットを撮影済み。**必須サイズは1179×2556
+        (Dynamic Island mediumクラス、iPhone 16相当)**(2026-10-14判明。1320×2868は
+        オプション扱いに変更されていた。`readygo-speak`でも同じ`File dimensions are invalid`
+        エラーで発覚)。`scripts/store-assets/out/framed-ios-1179/`をアップロードする。
+        撮り方は`docs/APP_STORE_ASSETS.md`
+  - [x] App Store Connect掲載情報(アプリ名・サブタイトル・説明・キーワード)のドラフトを作成済み
+        (`docs/APP_STORE_LISTING.md`)。App Privacy(データ収集申告)はAdMob/UMP SDKの
+        `PrivacyInfo.xcprivacy`を直接読んで裏付け済み(2026-10-14)
   - [x] 署名チーム(`DEVELOPMENT_TEAM`)を設定済み(2026-10-13)。個人アカウントのチームID
         `FP82665GWP`がApple Developer Program(Organization)にそのまま引き継がれたとのことで、
         readygo-speakと同じチームIDを`ios/Runner.xcodeproj/project.pbxproj`のRunnerターゲット
         3構成(Debug/Release/Profile。RunnerTestsは対象外、Speakと同じ)に設定。
         署名ありの`flutter build ios --release`で実機向けビルドが通ることを確認済み
+  - [x] 署名済みアーカイブ(`flutter build ipa --release`)を作成済み(2026-10-14、
+        `build/ios/ipa/ReadyGo Phrase.ipa`、version 1.0.1+2)。警告1件(起動画面が
+        Flutterデフォルトのまま。ブロッカーではない、「ブランド・デザインシステム」章の既知事項)
   - [ ] **要TK対応**: App Store ConnectでPhraseのApp情報(Bundle ID
         `space.readygo-english.phrase`)を新規作成し、`docs/APP_STORE_LISTING.md`の内容を登録する
-  - [ ] **要TK対応**: 署名済みのアーカイブ作成(`flutter build ipa --release`、または
-        Xcode Organizer経由)とApp Store Connectへのアップロード(Transporter等)
-  - [ ] 本番署名後、`AppConfig.storeUrl`(iOS側)にApp StoreのアプリIDを設定すること
+  - [ ] **要TK対応**: Transporter等で`build/ios/ipa/ReadyGo Phrase.ipa`をApp Store Connectへ
+        アップロードし、審査に提出する(Apple ID認証が要るためClaude Codeは代行できない)
+  - [ ] 審査提出後、`AppConfig.storeUrl`(iOS側、現状null)にApp StoreのアプリIDを設定すること
         (readygo-speak/CLAUDE.md 3章の同様の記述を参照。nullの間はストアへのボタンを出さない設計)

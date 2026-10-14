@@ -56,23 +56,29 @@ App Store Connectの質問票で決まる。本アプリは暴力・成人向け
 
 ## App Privacy(プライバシーに関する「栄養成分表示」)
 
-Play Console「データセーフティ」と同じ事実整理([docs/PLAY_STORE_LISTING.md](PLAY_STORE_LISTING.md)
-の表)をAppleの「データの種類」分類に当てはめたもの。実装(`readygo-speak-api`・`lib/`)を根拠にしている。
+**2026-10-14、ビルドに実際に含まれるSDKの`PrivacyInfo.xcprivacy`マニフェストを読んで裏付け済み**
+(`plutil -convert xml1 -o - build/ios/archive/Runner.xcarchive/Products/Applications/Runner.app/
+Frameworks/GoogleMobileAds.framework/PrivacyInfo.xcprivacy`・`UserMessagingPlatform.framework/同`)。
+推測で埋めると精度を欠く(例: 「Advertising Data」はAdMobの申告では`Tracking: false`)。
+自社バックエンド分は実装(`readygo-speak-api`・`lib/`)を根拠にしている。
 最終的な申告内容はTK確認のうえApp Store Connect上で入力する。
 
-| Appleのデータ種別 | 該当データ | 利用者との紐付け | 用途 | 第三者への共有 |
+| Appleのデータ種別 | 該当データ | 収集元 | トラッキング | 用途 |
 |---|---|---|---|---|
-| 識別子(Identifiers) | `POST /api/v1/users`で発行される匿名トークン(メール・氏名等は一切紐づかない) | 利用者に紐付けない(匿名) | App機能(学習履歴の同期・復習キュー生成) | 第三者と共有しない |
-| 使用状況データ(Usage Data) | レベル・モード・フリップ結果(覚えている/わからない)・所要時間 | 利用者に紐付けない(匿名) | App機能(復習モードの出題・履歴画面の表示) | 第三者と共有しない |
-| 識別子(広告ID/IDFA) | AdMob(`google_mobile_ads`)がバナー広告配信のため取得。ATT許諾次第 | 利用者に紐付く(広告計測) | サードパーティ広告 | Google(AdMob)と共有 |
+| 識別子(User ID) | `POST /api/v1/users`で発行される匿名トークン(メール・氏名等は一切紐づかない) | 自社API | いいえ | Appの機能(学習履歴の同期・復習キュー生成) |
+| 使用状況データ(Product Interaction) | レベル・モード・フリップ結果(覚えている/わからない)・所要時間 | 自社API + AdMob SDK | いいえ | Appの機能、分析、広告 |
+| おおよその位置情報(Coarse Location) | IPアドレス由来(GPS不使用でも収集される) | AdMob SDK・UMP SDK | いいえ | 分析、広告、App機能(UMPの地域判定用) |
+| 診断(Crash Data / Performance Data / Other Diagnostic Data) | クラッシュログ・パフォーマンス・その他診断情報 | AdMob SDK | いいえ | 分析、広告 |
+| 識別子(Device ID) | AdMobがバナー広告配信・計測のため取得。ATT許諾次第 | AdMob SDK | **はい** | 分析、広告 |
+| 広告データ(Advertising Data) | 広告の表示・クリック等 | AdMob SDK | いいえ | 分析、広告 |
 
 - **個人を特定する情報(氏名・メール・電話番号・住所等)は収集しない**(アカウント登録・ログイン
   機能自体が無い)
-- 位置情報・連絡先・写真等のデバイス権限は要求しない
+- 連絡先・写真等のデバイス権限は要求しない(位置情報はGPSではなくIP由来の粗い情報のみ、AdMob/UMPが収集)
 - トラッキングの許可を求める(`NSUserTrackingUsageDescription`、ATT)。拒否されても広告は
   (パーソナライズなしで)表示される
-- 「Appにリンクされていますか」は識別子・使用状況データは**いいえ**(匿名のため)、広告IDは
-  ATT同意状況により**トラッキングに使用される可能性あり**として申告する
+- 「トラッキングに使用」は**Device IDのみ「はい」**、他はすべて「いいえ」(AdMobの
+  `PrivacyInfo.xcprivacy`の`NSPrivacyCollectedDataTypeTracking`フラグに準拠)
 
 ## 連絡先・URL
 
