@@ -59,13 +59,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
 	<!-- AdMobのアプリID(CLAUDE.md 8章、2026-09-26登録)。広告ユニットIDは lib/config/ad_config.dart。 -->
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-5922624949407858~1792500295</string>

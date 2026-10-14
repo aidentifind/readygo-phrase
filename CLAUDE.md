@@ -11,7 +11,10 @@
   留学・ワーホリ渡航を控えた日本人準備層
 - **コアコンセプト**: カードをフリップして目で判定するフラッシュカードUI。
   Speakの「ながら学習(画面を見ない)」とは異なり、**画面を見ることが必須**の設計(意図的な路線分岐)
-- **プラットフォーム**: Android・iOS(Speakと同じくAndroid先行、Flutter)
+- **プラットフォーム**: Android・iOS(Speakと同じくAndroid先行、Flutter)。
+  **iOSはiPhone専用**(2026-10-14確定。`TARGETED_DEVICE_FAMILY = 1`。iPadではiPhoneアプリとして
+  互換表示される。readygo-speakと同じ理由でiPad用スクリーンショットの用意を省くため、App Store
+  Connectが「13インチiPadディスプレイのスクリーンショットが必要」と要求してきたのを機に変更)
 - **バックエンド**: `readygo-speak-api` をReadyGo Speakと共有する(複数アプリ共通化、
   2026-09-24。`Speak::`/`Phrase::`のRailsモジュール名前空間で分離。詳しくは
   `readygo-speak-api/README.md`参照)
