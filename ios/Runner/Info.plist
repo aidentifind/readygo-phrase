@@ -59,13 +59,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
 	<!-- AdMobのアプリID(CLAUDE.md 8章、2026-09-26登録)。広告ユニットIDは lib/config/ad_config.dart。 -->
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-5922624949407858~1792500295</string>
@@ -278,5 +271,8 @@
 	     トラッキング許可ダイアログの文言。拒否されても広告は(パーソナライズなしで)出る。 -->
 	<key>NSUserTrackingUsageDescription</key>
 	<string>あなたの興味に合った広告を表示するために使用します。</string>
+	<!-- HTTPS以外の暗号化を使っていない(App Store Connectの輸出コンプライアンス質問を省く) -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>
