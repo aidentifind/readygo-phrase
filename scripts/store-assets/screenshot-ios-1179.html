@@ -1,0 +1,59 @@
+<!doctype html>
+<!--
+  App Store用スクリーンショット(1179×2556、Dynamic Island mediumクラス、Apple必須サイズ)。
+  screenshot-ios.html(1320×2868、6.9インチクラス=オプション扱い)を縮尺(×0.8932)したもの。
+  render-ios-1179.sh がヘッドレスChromeで開いて書き出す。
+  ?shot=1〜6 で画面、&mode=framed(見出し+電話フレーム、方式B)| raw(生スクショ、方式A)。
+  raw-ios-1179/ の元画像はそのまま1179×2556(iOSのスクリーンショットはステータスバー・ホームインジケータ込みでこのサイズ)。
+  readygo-speak の scripts/store-assets/screenshot-ios-1179.html をそのまま移植。
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700&display=block">
+<style>
+  :root { --ink: #16141F; --paper: #F6F4F0; }
+  html, body { margin: 0; width: 1179px; height: 2556px; overflow: hidden; background: var(--paper); }
+  .raw { width: 1179px; height: 2556px; overflow: hidden; }
+  .raw img { display: block; width: 1179px; }
+
+  .framed {
+    width: 1179px; height: 2556px; box-sizing: border-box;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 86px 80px 63px; gap: 41px;
+    font-family: 'Zen Kaku Gothic New', sans-serif; color: var(--ink);
+  }
+  .copy { display: flex; flex-direction: column; align-items: center; gap: 13px; text-align: center; }
+  h1 { margin: 0; font-weight: 700; font-size: 63px; line-height: 1.2; }
+  p { margin: 0; font-weight: 500; font-size: 32px; opacity: 0.62; }
+  .phone {
+    width: 1018px; height: 2211px; box-sizing: border-box; padding: 14px;
+    background: var(--ink); border-radius: 70px;
+    box-shadow: 0 43px 86px rgba(22, 20, 31, 0.28);
+  }
+  .screen { width: 100%; height: 100%; border-radius: 55px; overflow: hidden; background: var(--paper); }
+  .screen img { display: block; width: 100%; }
+</style>
+</head>
+<body>
+<script>
+  const shots = {
+    1: { file: '1-home', h1: 'TOEICレベルを選んで、めくるだけ。', sub: '毎回レベル選択から。選び直しもすぐできる' },
+    2: { file: '2-mode', h1: '学習と復習、ワンタップで切り替え。', sub: '「わからない」だけが復習モードに残る' },
+    3: { file: '3-card-phrasal', h1: '知ってる単語なのに、意味が出てこない。', sub: '句動詞・熟語を、例文つきでめくって確認' },
+    4: { file: '4-card-word', h1: '句動詞・熟語だけじゃない、単語も。', sub: 'TOEICレベル別に収録' },
+    5: { file: '5-home-highlighted', h1: '前回のレベルを、ハイライト表示。', sub: '選び直しの手間を減らす一工夫' },
+    6: { file: '6-history', h1: 'わからなかった分だけ、ちゃんと復習。', sub: 'レベル別の内訳と、最近の学習を一覧表示' },
+  };
+  const params = new URLSearchParams(location.search);
+  const shot = shots[params.get('shot')] || shots[1];
+  const src = `raw-ios-1179/${shot.file}.png`;
+  document.body.innerHTML = params.get('mode') === 'raw'
+    ? `<div class="raw"><img src="${src}"></div>`
+    : `<div class="framed">
+         <div class="copy"><h1>${shot.h1}</h1><p>${shot.sub}</p></div>
+         <div class="phone"><div class="screen"><img src="${src}"></div></div>
+       </div>`;
+</script>
+</body>
+</html>
