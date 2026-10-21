@@ -114,8 +114,7 @@ readygo-speak・readygo-speak-apiと同じ考え方(詳細は[docs/RELEASE_FLOW.
 - [x] サイト(`readygo-english.space/phrase/`)を作成・デプロイ済み(2026-09-26作成、2026-10-06時点で
       実際に公開されていることを確認。`readygo-speak-api/site/phrase/index.html`、デザイン・コード構成は
       ReadyGo Speakの`site/speak/index.html`を踏襲、ロゴは本アプリの「P」マークを使用)。
-      アプリ未公開のため、CTAは引き続き「Android版 近日公開」の非活性表示(代わりにReadyGo Speakの
-      Google Playページへ誘導)。**アプリを公開したら、CTAをストアリンクに差し替えてから再デプロイすること**
+      2026-10-21、App Store・Google Playの両ストアへのCTAに更新(readygo-speak-api `site/`)
 - [ ] プライバシーポリシーの文面確認(2026-10-06発見): `AppConfig.privacyPolicyUrl`に設定した
       aidentifind共通ポリシーは「学習履歴は端末内のみ保存」としているが、Phraseの実装(§2.2)は
       フリップ結果を`phrase_study_statuses`としてサーバーに送信している。readygo-speak側でも
@@ -128,7 +127,7 @@ readygo-speak・readygo-speak-apiと同じ考え方(詳細は[docs/RELEASE_FLOW.
       作成済みだが、push・GitHubのDefault branch変更・`main`のブランチ保護はまだ
 - [ ] `docs/HANDOVER.md` §6 未決事項の #3〜#5(フリップ実装方式・例文の可変数・履歴の表示内容)は
       実装時に妥当な側で進めた。TKの確認を推奨
-- [ ] **App Store提出準備(2026-10-13着手、Androidに次ぐ初のiOS提出)**: ビルド確認・スクリーンショット・
+- [x] **App Store提出準備(2026-10-13着手、2026-10-21時点でApp Store公開済み)**: ビルド確認・スクリーンショット・
       掲載情報ドラフトまでは完了。残りはTK本人のApple Developer アカウントでの作業が必要
   - [x] `flutter build ios --release --no-codesign`でリリースビルドが通ることを確認済み(Xcode 27.0)
   - [x] App Store向けスクリーンショットを撮影済み。**必須サイズは1179×2556
@@ -147,9 +146,9 @@ readygo-speak・readygo-speak-apiと同じ考え方(詳細は[docs/RELEASE_FLOW.
   - [x] 署名済みアーカイブ(`flutter build ipa --release`)を作成済み(2026-10-14、
         `build/ios/ipa/ReadyGo Phrase.ipa`、version 1.0.1+2)。警告1件(起動画面が
         Flutterデフォルトのまま。ブロッカーではない、「ブランド・デザインシステム」章の既知事項)
-  - [ ] **要TK対応**: App Store ConnectでPhraseのApp情報(Bundle ID
+  - [x] **要TK対応(完了)**: App Store ConnectでPhraseのApp情報(Bundle ID
         `space.readygo-english.phrase`)を新規作成し、`docs/APP_STORE_LISTING.md`の内容を登録する
-  - [ ] **要TK対応**: Transporter等で`build/ios/ipa/ReadyGo Phrase.ipa`をApp Store Connectへ
+  - [x] **要TK対応(完了)**: Transporter等で`build/ios/ipa/ReadyGo Phrase.ipa`をApp Store Connectへ
         アップロードし、審査に提出する(Apple ID認証が要るためClaude Codeは代行できない)
-  - [ ] 審査提出後、`AppConfig.storeUrl`(iOS側、現状null)にApp StoreのアプリIDを設定すること
-        (readygo-speak/CLAUDE.md 3章の同様の記述を参照。nullの間はストアへのボタンを出さない設計)
+  - [x] `AppConfig.storeUrl`(iOS側)にApp StoreのアプリID`id6822724798`を設定済み(2026-10-21)。
+        次回のiOSビルドから反映される

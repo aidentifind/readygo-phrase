@@ -35,8 +35,9 @@ class AppConfig {
   /// パッケージ名/Bundle IDはReadyGo Speak(space.readygo_english.speak /
   /// space.readygo-english.speak)と同じ命名規則で2026-10-08確定
   /// (android/app/build.gradle.kts・ios/Runner.xcodeproj/project.pbxprojも同時に修正済み)。
+  /// iOSはApp Store公開(2026-10)に伴いアプリID(id6822724798)を設定。
   static String? get storeUrl => defaultTargetPlatform == TargetPlatform.iOS
-      ? null
+      ? 'https://apps.apple.com/app/id6822724798'
       : 'https://play.google.com/store/apps/details?id=space.readygo_english.phrase';
 
   /// プライバシーポリシーのURL(readygo-speakが2026-10-03に確定したものと同じ。
