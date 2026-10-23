@@ -11,7 +11,10 @@
   留学・ワーホリ渡航を控えた日本人準備層
 - **コアコンセプト**: カードをフリップして目で判定するフラッシュカードUI。
   Speakの「ながら学習(画面を見ない)」とは異なり、**画面を見ることが必須**の設計(意図的な路線分岐)
-- **プラットフォーム**: Android・iOS(Speakと同じくAndroid先行、Flutter)
+- **プラットフォーム**: Android・iOS(Speakと同じくAndroid先行、Flutter)。
+  **iOSはiPhone専用**(2026-10-14確定。`TARGETED_DEVICE_FAMILY = 1`。iPadではiPhoneアプリとして
+  互換表示される。readygo-speakと同じ理由でiPad用スクリーンショットの用意を省くため、App Store
+  Connectが「13インチiPadディスプレイのスクリーンショットが必要」と要求してきたのを機に変更)
 - **バックエンド**: `readygo-speak-api` をReadyGo Speakと共有する(複数アプリ共通化、
   2026-09-24。`Speak::`/`Phrase::`のRailsモジュール名前空間で分離。詳しくは
   `readygo-speak-api/README.md`参照)
@@ -111,8 +114,7 @@ readygo-speak・readygo-speak-apiと同じ考え方(詳細は[docs/RELEASE_FLOW.
 - [x] サイト(`readygo-english.space/phrase/`)を作成・デプロイ済み(2026-09-26作成、2026-10-06時点で
       実際に公開されていることを確認。`readygo-speak-api/site/phrase/index.html`、デザイン・コード構成は
       ReadyGo Speakの`site/speak/index.html`を踏襲、ロゴは本アプリの「P」マークを使用)。
-      アプリ未公開のため、CTAは引き続き「Android版 近日公開」の非活性表示(代わりにReadyGo Speakの
-      Google Playページへ誘導)。**アプリを公開したら、CTAをストアリンクに差し替えてから再デプロイすること**
+      2026-10-21、App Store・Google Playの両ストアへのCTAに更新(readygo-speak-api `site/`)
 - [ ] プライバシーポリシーの文面確認(2026-10-06発見): `AppConfig.privacyPolicyUrl`に設定した
       aidentifind共通ポリシーは「学習履歴は端末内のみ保存」としているが、Phraseの実装(§2.2)は
       フリップ結果を`phrase_study_statuses`としてサーバーに送信している。readygo-speak側でも
@@ -125,3 +127,28 @@ readygo-speak・readygo-speak-apiと同じ考え方(詳細は[docs/RELEASE_FLOW.
       作成済みだが、push・GitHubのDefault branch変更・`main`のブランチ保護はまだ
 - [ ] `docs/HANDOVER.md` §6 未決事項の #3〜#5(フリップ実装方式・例文の可変数・履歴の表示内容)は
       実装時に妥当な側で進めた。TKの確認を推奨
+- [x] **App Store提出準備(2026-10-13着手、2026-10-21時点でApp Store公開済み)**: ビルド確認・スクリーンショット・
+      掲載情報ドラフトまでは完了。残りはTK本人のApple Developer アカウントでの作業が必要
+  - [x] `flutter build ios --release --no-codesign`でリリースビルドが通ることを確認済み(Xcode 27.0)
+  - [x] App Store向けスクリーンショットを撮影済み。**必須サイズは1179×2556
+        (Dynamic Island mediumクラス、iPhone 16相当)**(2026-10-14判明。1320×2868は
+        オプション扱いに変更されていた。`readygo-speak`でも同じ`File dimensions are invalid`
+        エラーで発覚)。`scripts/store-assets/out/framed-ios-1179/`をアップロードする。
+        撮り方は`docs/APP_STORE_ASSETS.md`
+  - [x] App Store Connect掲載情報(アプリ名・サブタイトル・説明・キーワード)のドラフトを作成済み
+        (`docs/APP_STORE_LISTING.md`)。App Privacy(データ収集申告)はAdMob/UMP SDKの
+        `PrivacyInfo.xcprivacy`を直接読んで裏付け済み(2026-10-14)
+  - [x] 署名チーム(`DEVELOPMENT_TEAM`)を設定済み(2026-10-13)。個人アカウントのチームID
+        `FP82665GWP`がApple Developer Program(Organization)にそのまま引き継がれたとのことで、
+        readygo-speakと同じチームIDを`ios/Runner.xcodeproj/project.pbxproj`のRunnerターゲット
+        3構成(Debug/Release/Profile。RunnerTestsは対象外、Speakと同じ)に設定。
+        署名ありの`flutter build ios --release`で実機向けビルドが通ることを確認済み
+  - [x] 署名済みアーカイブ(`flutter build ipa --release`)を作成済み(2026-10-14、
+        `build/ios/ipa/ReadyGo Phrase.ipa`、version 1.0.1+2)。警告1件(起動画面が
+        Flutterデフォルトのまま。ブロッカーではない、「ブランド・デザインシステム」章の既知事項)
+  - [x] **要TK対応(完了)**: App Store ConnectでPhraseのApp情報(Bundle ID
+        `space.readygo-english.phrase`)を新規作成し、`docs/APP_STORE_LISTING.md`の内容を登録する
+  - [x] **要TK対応(完了)**: Transporter等で`build/ios/ipa/ReadyGo Phrase.ipa`をApp Store Connectへ
+        アップロードし、審査に提出する(Apple ID認証が要るためClaude Codeは代行できない)
+  - [x] `AppConfig.storeUrl`(iOS側)にApp StoreのアプリID`id6822724798`を設定済み(2026-10-21)。
+        次回のiOSビルドから反映される
